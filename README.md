@@ -1,5 +1,5 @@
 # SnakeGame
-The classes to download in order to compile for Demo 2 are under the Demo2 branch. In order to compile, you will download the classes found in the branch and run them as the snakeGame package. 
+The classes to download in order to compile for Demo 2 are under the FinalDemo2 branch. In order to compile, you will download the classes found in the branch and run them as the snakeGame package. 
 
 Citations:
 Professor Nathaly Verwaal, Computer Science 219, Introduction for Multidisciplinary Studies II :theories used in the implementation and creating of our console game
