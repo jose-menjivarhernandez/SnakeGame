@@ -1,11 +1,6 @@
 package controller;
 import logic.*;
 import userInterface.*;
-
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -25,13 +20,31 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
+
 import javafx.util.Duration;
 import userInterface.GameOverAlertBox;
 
+/** 
+ * The Driver class is the general creator of the Pane that will, in the Main Menu, 
+ * be used to begin the scene that runs a time-line. This time-line drives the changes in the 
+ * specific screen in order for the snake to move, and the berry to re-spawn
+ * The instance variables Direction, which are enumerations, control where the snake is moving towards.
+ * NODE_SIZE is the length and height in pixels of the block that make up the snake. 
+ * BOARD_WIDTH is the width of the board in terms of specific node-sizes 
+ * BOARD_HEIGHT is the height of the board in terms of specific node-sizes 
+ * duration is the time in between time-line cycles, or how often the scene changes 
+ * the type String is used to determine what maze to be used and implemented. 
+ * The observable list of nodes is what makes up the body of the snake. 
+ * the integer counter keeps the score when a berry is eaten
+ * The boolean "iterating" is used to determine whether the time-line is playing
+ * The boolean "moved" is used to determine whether there has been a change of direction or not 
+ * The instances of the classes Maze1 and Maze2 are used to potentially add the barriers onto
+ * the specified scene. 
+*/
+
 
 public class Driver{
-	   public enum Direction {
+	public enum Direction {
 	        UP, DOWN, LEFT, RIGHT
 	    }
 	   
@@ -52,52 +65,88 @@ public class Driver{
     Maze1 maze1 = new Maze1();
     Maze2 maze2 = new Maze2();
     
+    /**
+     *  The getDuration method
+     * @return returns the durations of an instance of class Driver
+     */
     public double getDuration() {
     	return duration;
     }
+    /**
+     * The setDuration method sets the duration for an instance of Driver
+     * @param newDuration is the parameter to set the duration as
+     */
     public void setDuration (double newDuration) {
     	duration = newDuration;
     }
+    /**
+     * The setType method set the type of maze for an instance of Driver
+     * @param newType is a String to set the type as. 
+     */
     public void setType(String newType) {
     	type = newType;
     }
+    
+    /**
+     * The getType method 
+     * @return returns the type of maze for an instance of Driver
+     */
     public String getType() {
     	return type;
     }
     
+    /**
+     * The getCounter method returns counter, used for keeping score, of an instance of Driver
+     * @return returns the integer counter
+     */
     public int getCounter() {
     	return counter;
     }
 
 
-
+/**
+ * The createAct method is pivotal to the class Driver. It drives the creation of the specific 
+ * pane, which is later going to be depicted in a scene.
+ * @param tline is the specific time-line that will be running in the KeyFrame
+ * @param duration is the time between iterations of different KeyFrames
+ * @param type is the specific type of maze or board desired, which will later on create the barriers and mazes
+ * @return the pane that switches frames at a duration when depicted on a scene.
+ */
      public Parent createAct(Timeline tline, double duration, String type) {
     	Pane root = new Pane();
         root.setPrefSize(BOARD_WIDTH, BOARD_HEIGHT);
         
+        //setting the class variables as the parameters entered
         this.duration = duration;
         this.type = type;
 
+        //Creating the snake's body, which is a group being added into the actualSnake(observable list)
         Group actualSnakeBody = new Group();
         actualSnake = actualSnakeBody.getChildren();
-
+        
+        //Creating a berry at a random spot in the screen (a square)
         Rectangle berry = new Rectangle(NODE_SIZE, NODE_SIZE);
         berry.setFill(Color.BLUE);
         berry.setTranslateX((int)(Math.random() * (BOARD_WIDTH-NODE_SIZE)) / NODE_SIZE * NODE_SIZE);
         berry.setTranslateY((int)(Math.random() * (BOARD_HEIGHT-NODE_SIZE)) / NODE_SIZE * NODE_SIZE);
 
+        //Setting up the re-iterating KeyFrame
         KeyFrame frame = new KeyFrame(Duration.seconds(duration), event -> {
             if (!iterating)
                 return;
-
+            //boolean shouldTakeAway checks whether the snake's head should be taken  away, as the movement of the snake
+            //solely depends on taking away its head node, and setting the tail to the start of the Observable List 
             boolean shouldTakeAway = actualSnake.size() > 1;
-
+            
+            //depending on shouldTakeAway, the tail of the snake is the last or the only node in the list
             Node tail = shouldTakeAway ? actualSnake.remove(actualSnake.size()-1) : actualSnake.get(0);
 
+            
             double tailX = tail.getTranslateX();
             double tailY = tail.getTranslateY();
 
 
+            //Depending on the Direction, translating where the snake is going at that iteration
             switch (direction) {
                 case UP:
                     tail.setTranslateX(actualSnake.get(0).getTranslateX());
@@ -120,7 +169,8 @@ public class Driver{
             }
 
             moved = true;
-
+            
+            //If statement adds the tail to the head if the snake was longer than one Node
             if (shouldTakeAway)
                 actualSnake.add(0, tail);
 
@@ -132,29 +182,31 @@ public class Driver{
                     break;
                 }
             }
-
+            //Side collision detection
             if (tail.getTranslateX() < 0 || tail.getTranslateX() >= BOARD_WIDTH
                     || tail.getTranslateY() < 0 || tail.getTranslateY() >= BOARD_HEIGHT) {
                 endGame(tline);
             }
-
+            
+            //eating detection
             if (tail.getTranslateX() == berry.getTranslateX()
                     && tail.getTranslateY() == berry.getTranslateY()) {
             	counter ++;
             	
             	int randX = (int)(Math.random() * (BOARD_WIDTH-NODE_SIZE)) / NODE_SIZE * NODE_SIZE;
             	int randY = (int)(Math.random() * (BOARD_HEIGHT-NODE_SIZE)) / NODE_SIZE * NODE_SIZE;
-            
+            	
+            	//resetting the berry randomly in the pane
             	berry.setTranslateX(randX);
             	berry.setTranslateY(randY);
             	
-
+            	//Setting a new node where the tail was
                 Rectangle rect = new Rectangle(NODE_SIZE, NODE_SIZE);
                 rect.setTranslateX(tailX);
                 rect.setTranslateY(tailY);
-
                 actualSnake.add(rect);
             }
+            //This if statement creates barriers where the player dies if Maze1 is chosen 
             if (type == "m1") {
             	if (tail.getTranslateX() >= NODE_SIZE*40 && tail.getTranslateX() <=  NODE_SIZE*40 + ((NODE_SIZE*29))
         				&& tail.getTranslateY() >= NODE_SIZE*25 && tail.getTranslateY() <= (NODE_SIZE*25+((NODE_SIZE)))) {
@@ -191,7 +243,7 @@ public class Driver{
         			endGame(tline);
         		}
             }
-            
+          //This if statement creates barriers where the player dies if Maze2 is chosen 
             else if (type == "m2") {
             	//Maze 2 barrier 1
         		if (tail.getTranslateX() >=0 && tail.getTranslateX() <= NODE_SIZE*42
@@ -243,17 +295,18 @@ public class Driver{
         
         tline.getKeyFrames().add(frame);
         tline.setCycleCount(tline.INDEFINITE);
-        
+       
         if (type == "classic") {
         	root.getChildren().addAll(berry, actualSnakeBody);
 	        return root;
 	        }
-        
+        //This if statement creates the visible barriers where the player dies if Maze1 is chosen
         else if(type == "m1") {
         	root.getChildren().addAll(berry, actualSnakeBody, maze1.addBarrier1(),maze1.addBarrier2(),
     				maze1.addBarrier3(), maze1.addBarrier4(), maze1.addBarrier5(), maze1.addBarrier6());
     		return root;
         }
+      //This if statement creates the visible barriers where the player dies if Maze2 is chosen
         else  {
         	root.getChildren().addAll(berry, actualSnakeBody, maze2.addBlock1(), maze2.addBlock2(), maze2.addBlock3(),
     				maze2.addBlock4(),maze2.addBlock5(),maze2.addBlock6(),maze2.addBlock7(),maze2.addBlock8(),
@@ -261,19 +314,29 @@ public class Driver{
     		return root;
         }
     }
-     
+    /**
+     * This method finishes the game when there is a death and begins it immediately
+     * @param tline determines in which specific Key Frame time-line a game will be started 
+     */
     public void restartGame(Timeline tline) {
         endGame(tline);
         beginGame(tline);
     }
-
+    /**
+     * This method makes iterating false and stops the specified time-line
+     * @param tline is the time-line to be stopped by method
+     */
     public void endGame(Timeline tline) {
         iterating = false;
         tline.stop();
         actualSnake.clear();
         GameOverAlertBox.displayEndGame();  
     }
-
+    
+    /**
+     * This method begins the game, initially adding the the head of the snake onto the Observable List
+     * @param tline is the time-line to be started
+     */
     public void beginGame(Timeline tline) {
     	
         Rectangle head = new Rectangle(NODE_SIZE, NODE_SIZE);
@@ -282,6 +345,10 @@ public class Driver{
         iterating = true;
    
     }
+    /**
+     * 
+     * @return the time-line in an instance of Driver
+     */
     public Timeline getTimeLine() {
     	return timeline;
     }
@@ -290,4 +357,3 @@ public class Driver{
 
 		
 }
-
