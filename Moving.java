@@ -1,5 +1,10 @@
 package logic;
 
+/**
+ * 
+ * This class takes care of the movement of the snake when certain events are triggered
+ *
+ */
 public class Moving{
 	private int width;
 	private int height;
