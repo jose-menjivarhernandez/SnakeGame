@@ -1,6 +1,14 @@
 package controller;
 import java.util.Scanner;
 import logic.*;
+/**
+ * 
+ * This class serves as a general controller for the console-based version of the project
+ * The different characters as instances variables are the characters that represent the snake, 
+ * the berry, the background and the walls as depicted. 
+ * The consoleBoard creates a visible grid as a 2x2 array
+ *
+ */
 public class SnakeConsoleController{
 	//Variables passed in to constructors in ***MAIN***
 	private char snake = '@';
@@ -11,8 +19,14 @@ public class SnakeConsoleController{
 	private char wall = '#';
 	private char back = '.';
 	public SnakeConsoleController(){}
-
+	
+	/**
+	 * This method is in charge of most things that happen in the main, including the board creation and 
+	 * the input reading and control
+	 */
 	public void play() {
+		
+		//Creates a specific board and an instance of Moving to use its methods
 		ClassicBoardConsole board = new ClassicBoardConsole (width, height, consoleBoard, snake, berry, wall, back);
 		Moving move = new Moving(board);
 		boolean go = true;		
@@ -27,7 +41,6 @@ public class SnakeConsoleController{
 				board.initialPlaceBerry(board.getBerry());
 				counter++;
 			}
-			//Checking if you died
 	
 			
 			//Getting user input
@@ -59,12 +72,13 @@ public class SnakeConsoleController{
 				 System.out.println("GAME OVER\nSCORE: " +counter);
 			}			
 			
+			//Checking if you died
 			if(board.gameOver()) {
 				System.out.println("LOST");
 				go = false;
 			}		 			  
 		}
-		//Closing the scanner privacy leak yall
+		//Closing the scanner to ensure protection for privacy leaks
 		scanner.close();
 	}
 	//***MAIN***
