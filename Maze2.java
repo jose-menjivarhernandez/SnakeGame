@@ -3,6 +3,11 @@ package logic;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * The class Maze2 creates a series of rectangles that are later displayed onto a specific pane
+ * This pane is later put into a dynamic KeyFrame and depicted in a scene in the GUI.
+ */
+
 public class Maze2{
 	int NODE_SIZE = 10;
 	 int BOARD_WIDTH = 70 * NODE_SIZE;
