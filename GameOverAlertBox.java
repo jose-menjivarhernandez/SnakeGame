@@ -1,6 +1,5 @@
 package userInterface;
-import javafx.animation.Timeline;
-import javafx.application.Application;
+
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,26 +11,35 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+
 import logic.*;
 import controller.*;
-//Add this as a setOnAction to button in main/ when we detect game is over
 
+/**
+ * 
+ * The purpose of this class is to create an Alert Box the first time an individual has lost
+ * in order to know what actions to be taken by the game, whether to try another game mode or
+ * to quit the game 
+ *
+ */
 public class GameOverAlertBox extends MainMenu2 {
 	
 	static Stage window = new Stage();
 	
+	/**
+	 * 
+	 * The method displayEndGame simply displays the Stage in which a final score for the 
+	 * loser player is displayed and and options for next steps are presented
+	 */
+	
 	public static Stage displayEndGame () {
 
 		window.initModality(Modality.APPLICATION_MODAL);
-		
-
-		//*****ARBITRARY NUMBER RN*****
-		window.setMinWidth(250);
 		MainMenu2 mainmenu = new MainMenu2();		
-		//Need getScore and getTime methods
-		Label label = new Label("Your Score was: " + mainmenu.newDriver.getCounter());
+		window.setMinWidth(250);
+		
+		//Creates the top label which displays the final obtained score
+		Label label = new Label("Your Score was: " + newDriver.getCounter());
 		label.setFont(Font.font("Verdana",50));
 
 
@@ -42,18 +50,20 @@ public class GameOverAlertBox extends MainMenu2 {
 		Button mainMenuButton = new Button("Return to Main Menu");
 		//Adding the buttons to the button HBox
 		HBox buttonCollection = new HBox(10, mainMenuButton, closeButton);
-	
+		
+		//We set the buttons on action specifically to fulfill their immediate duties. 
 		mainMenuButton.setOnAction(e->{
 			window.close();
 			mainmenu.stage1 = mainmenu.displayMainMenu();
 			mainmenu.stage1.show();
 		});
+		
 		closeButton.setOnAction(e -> {
 			window.close();
 			Platform.exit();
 		});
 
-		//Setting elements in window
+		//Setting elements in window in appropriate alignment
 		BorderPane borderPane = new BorderPane(); 
 	
 		topLabelling.setAlignment(Pos.CENTER);
