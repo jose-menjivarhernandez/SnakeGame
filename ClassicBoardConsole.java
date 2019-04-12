@@ -34,26 +34,26 @@ public class ClassicBoardConsole{
 		//setting the instance variable to the parameter
 		this.consoleBoard = consoleBoardCon;
 		//Filling array with '.'
-		for (int  i= 1; i < width-1; i++) {
-			for (int k = 1; k < height-1; k++) {
-				consoleBoard[k][i]= back;
+		for (int  index= 1; index < width-1; index++) {
+			for (int index2 = 1; index2 < height-1; index2++) {
+				consoleBoard[index2][index]= back;
 			}
 		}
 		//Adding the top border characters
-		for (int i = 0; i< width; i++) {
-			consoleBoard[i][0] = wall;
+		for (int index = 0; index< width; index++) {
+			consoleBoard[index][0] = wall;
 		}
 		//Adding the bottom border characters
-		for (int i=0; i< width; i++) {
-			consoleBoard[i][height-1] = wall;
+		for (int index=0; index< width; index++) {
+			consoleBoard[index][height-1] = wall;
 		}
 		//Adding the left border characters
-		for (int i=0; i< height; i++) {
-			consoleBoard[0][i] = wall;
+		for (int index=0; index< height; index++) {
+			consoleBoard[0][index] = wall;
 		}
 		//Adding the right bottom border characters
-		for (int i=0; i<height; i++) {
-			consoleBoard[WIDTH-1][i]= wall;
+		for (int index=0; index<height; index++) {
+			consoleBoard[WIDTH-1][index]= wall;
 		}
 		initialPlaceBerry(berry);
 		placeSnake(snake);
@@ -98,9 +98,9 @@ public class ClassicBoardConsole{
 	
 	//Printing the game board
 	public void printBoard() {
-		for (int i= 0; i < width; i++) {
-			for (int j= 0; j< height;j ++) {
-				System.out.print(consoleBoard[j][i]);
+		for (int index= 0; index< width; index++) {
+			for (int index2= 0; index2< height;index2 ++) {
+				System.out.print(consoleBoard[index2][index]);
 			}
 			System.out.println();
 		}
@@ -131,26 +131,26 @@ public class ClassicBoardConsole{
 	 */
 	public boolean gameOver() { 
 		boolean lost = false;
-		for (int i = 0; i< width; i++) {
-			if(consoleBoard[i][0] == snake) {
+		for (int index = 0; index< width; index++) {
+			if(consoleBoard[index][0] == snake) {
 				return lost = true;
 			};
 		}
 		//Adding the bottom border characters
-		for (int i=0; i< width; i++) {
-			if(consoleBoard[i][height-1] == snake) {
+		for (int index=0; index< width; index++) {
+			if(consoleBoard[index][height-1] == snake) {
 				return lost = true;
 			}
 		}
 		//Adding the left border characters
-		for (int i=0; i< height; i++) {
-			if(consoleBoard[0][i] == snake) {
+		for (int index=0; index< height; index++) {
+			if(consoleBoard[0][index] == snake) {
 				return lost = true;
 			}
 		}
 		//Adding the right bottom border characters
-		for (int i=0; i<height; i++) {
-			if(consoleBoard[width-1][i] == snake) {
+		for (int index=0; index<height; index++) {
+			if(consoleBoard[width-1][index] == snake) {
 				return lost = true;
 			}
 		}
