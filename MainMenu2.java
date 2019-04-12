@@ -1,27 +1,15 @@
 package userInterface;
-import logic.*; 
-import userInterface.*;
 import controller.Driver;
+import controller.Driver.Direction;
 import javafx.animation.Timeline;
-import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -37,43 +25,50 @@ import javafx.stage.Stage;
 
 public class MainMenu2  {
 	
-	static Driver newDriver = new Driver();
+	Driver newDriver = new Driver();
+	boolean easyClick = false;
+	boolean mediumClick = false;
+	boolean hardClick = false; 
+	boolean classicClicked = false;
+	boolean maze1Clicked = false;
+	boolean maze2Clicked = false;
 	Label score = new Label();
 
 	public Stage stage1 = new Stage();
 	
-	/**
-	 * 
-	 * The inner EventHandling class "ControlClass" handles the controls on keys pressed.
-	 * Immediately after event, Control Class switches directions with a switch statement
-	 * this gives order to our case switcher in the method createAct in newDriver
-	 *
-	 */
+	
 	public class ControlClass implements EventHandler<KeyEvent>{
 
 		
+		/**
+		 * 
+		 * The inner EventHandling class "ControlClass" handles the controls on keys pressed.
+		 * Immediately after event, Control Class switches directions with a switch statement
+		 * this gives order to our case switcher in the method createAct in newDriver
+		 *
+		 */
 		@Override
 		public void handle(KeyEvent event) {
 			score.setText("Score: " + newDriver.getCounter());
 			switch(event.getCode()) {
 			case W:
-				if (newDriver.direction != newDriver.direction.DOWN)
-					newDriver.direction = newDriver.direction.UP;
+				if (newDriver.direction != Direction.DOWN)
+					newDriver.direction = Direction.UP;
 				break;
 			case A:
-				if (newDriver.direction != newDriver.direction.RIGHT)
-					newDriver.direction = newDriver.direction.LEFT;
+				if (newDriver.direction != Direction.RIGHT)
+					newDriver.direction = Direction.LEFT;
 				break;
 			case S:
-				if (newDriver.direction != newDriver.direction.UP)
-					newDriver.direction = newDriver.direction.DOWN;
+				if (newDriver.direction != Direction.UP)
+					newDriver.direction = Direction.DOWN;
 				break;
 			case D:
-				if (newDriver.direction != newDriver.direction.LEFT)
-					newDriver.direction = newDriver.direction.RIGHT;
+				if (newDriver.direction != Direction.LEFT)
+					newDriver.direction = Direction.RIGHT;
 				break;
 			default:
-				newDriver.direction = newDriver.direction.RIGHT;
+				newDriver.direction = Direction.RIGHT;
 				break;
 			}
 		}
@@ -84,10 +79,9 @@ public class MainMenu2  {
 	 * The DisplayMainMenu method displays all visuals in the GUI
 	 * @return the Stage with the scenes holding specifications for customized game plays 
 	 */
-
 	public Stage displayMainMenu() {
 		//Creating HBox and adding created labels to it
-		VBox labelling = new VBox(100);
+		VBox labelling = new VBox(10);
 		
 		
 		Label label1 = new Label("Welcome to the Snoke Game!");
@@ -102,33 +96,46 @@ public class MainMenu2  {
 		
 		Button easyButton = new Button ("Easy");
 		easyButton.setPrefSize(200, 100);
-
+		
+		Button easyChallengeButton = new Button ("Easy Challenge Mode");
+		easyChallengeButton.setPrefSize(200,100);
+		
 		Button mediumButton = new Button ("Medium");
 		mediumButton.setPrefSize(200,100);
 
+		Button mediumChallengeButton = new Button ("Medium Challenge Mode");
+		mediumChallengeButton.setPrefSize(200,100);
 		
 		Button hardButton = new Button ("Hard");
 		hardButton.setPrefSize(200, 100);
 		
-		buttonHolder.getChildren().addAll(easyButton, mediumButton, hardButton);
+		Button hardChallengeButton = new Button ("Hard Challenge Mode");
+		hardChallengeButton.setPrefSize(200,100);
 		
+		buttonHolder.getChildren().addAll(easyButton,easyChallengeButton, mediumButton,mediumChallengeButton, hardButton, hardChallengeButton);
+
 
 		//Setting first screen elements in window
 		labelling.setAlignment(Pos.CENTER);
 		buttonHolder.setAlignment(Pos.CENTER);
+		Button ReturnButton = new Button ("Return");
+		ReturnButton.setOnAction(e->{
+		stage1.close();
+		stage1 = displayMainMenu();
+		stage1.show();
+		});
 		
 		
-		//Contents for Scene 1 are here
+		//****Contents for Scene 1 are here
 		BorderPane mainMenu = new BorderPane();
 		mainMenu.setTop(labelling);
 		mainMenu.setCenter(buttonHolder);
 		Scene scene1 = new Scene(mainMenu, 900, 650);
 		stage1.setScene(scene1);
 		
-		//Contents for Board Maze selection are here 
+		//*Contents for Easy selection are here 
 		BorderPane selectionMenu = new BorderPane();		
 		VBox selectionHolder = new VBox(50);
-		
 		//Create 3 buttons for board options
 		Label selecting = new Label ("Please select your board");
 		selecting.setFont(Font.font("Verdana", 50));
@@ -138,7 +145,6 @@ public class MainMenu2  {
 		maze1.setPrefSize(200, 100);
 		Button maze2 = new Button ("Maze 2"); 
 		maze2.setPrefSize(200, 100);
-		
 		//Place all 3 buttons at the center of the window
 		selectionHolder.getChildren().addAll(selecting, classic, maze1, maze2);
 		selectionHolder.setAlignment(Pos.CENTER);
@@ -146,60 +152,66 @@ public class MainMenu2  {
 
 		Scene scene2 = new Scene(selectionMenu, 900, 650);
 		
-		//Add both buttons and timer to the scene
 		Timeline timeline = new Timeline();
 		BorderPane generalPane= new BorderPane();
-		
 		//Set "Return" and "Quit" buttons
-		//These buttons are immediately created with their specified 
-		
-		Button ReturnButton = new Button ("Return");
-		ReturnButton.setOnAction(e->{
-			stage1.close();
-			timeline.stop();
-			stage1 = displayMainMenu();
-			stage1.show();
-		});
-		
 		Button QuitButton = new Button("Quit");
 		ReturnButton.setPrefSize(75, 75);
 		QuitButton.setPrefSize(75, 75);
+		//Challenge Label
+		Label funMessage = new Label ("Have Fun!");
 		
-		VBox sideButtons = new VBox(ReturnButton, QuitButton, score);
+		//Add both buttons and timer to the scene
+		
+		VBox sideButtons = new VBox(funMessage, ReturnButton, QuitButton, score);
 		sideButtons.setAlignment(Pos.CENTER);
 		generalPane.setCenter(sideButtons);
 
-	    QuitButton.setOnAction(e->
-	    {stage1.close();
-	    timeline.stop();
-	    	}
-	    );
+	    QuitButton.setOnAction(e->stage1.close());
 		
-		//These following lines of code dictate the specific actions of every specific 
-	   //button in the different menus shown stages in the GUI
+		//These follwoing lines of code dictate the specific actions of every specific
+	    //button in the different menus shown stages in the GUI
 		easyButton.setOnAction(e->{
 			stage1.setScene(scene2);
 			newDriver.setDuration(0.1);
 		});
-
+		easyChallengeButton.setOnAction(e->{
+			stage1.setScene(scene2);
+			newDriver.setDuration(0.1);
+			newDriver.setChallenge(true);
+			funMessage.setText("You have 1 minute");
+		});
 		mediumButton.setOnAction(e->{
 			stage1.setScene(scene2);
-		
+
 			newDriver.setDuration(0.075);
 		});
-
+		mediumChallengeButton.setOnAction(e->{
+			stage1.setScene(scene2);
+			newDriver.setDuration(0.075);
+			newDriver.setChallenge(true);
+			funMessage.setText("You have 1 minute");
+		});
 		hardButton.setOnAction(e->{
 			stage1.setScene(scene2);
-			
+
 			newDriver.setDuration(0.05);
 			
+		});
+		hardChallengeButton.setOnAction(e->{
+			stage1.setScene(scene2);
+			newDriver.setDuration(0.05);
+			newDriver.setChallenge(true);
+			funMessage.setText("You have 1 minute");
 		});
 		
 		//The next few setOnAction statements are setting the buttons for pressing events
 		//that are immediately going to create a dynamic scene using the time-line, 
 		//duration, and type of Driver class to depict in the scene.
 		classic.setOnAction(e->{
-			
+		
+		classic.setOnAction(e->{
+
 			newDriver.setType("classic");
 			generalPane.setLeft(newDriver.createAct(timeline, newDriver.getDuration(),newDriver.getType()));
 			Scene finalScene = new Scene(generalPane,900,650);
@@ -209,7 +221,7 @@ public class MainMenu2  {
 		});
 
 		maze1.setOnAction(e->{
-			
+
 			newDriver.setType("m1");
 			generalPane.setLeft(newDriver.createAct(timeline, newDriver.getDuration(),newDriver.getType()));
 			Scene finalScene = new Scene(generalPane,900,650);
@@ -220,7 +232,7 @@ public class MainMenu2  {
 		});
 
 		maze2.setOnAction(e->{
-			
+
 			newDriver.setType("m2");
 			generalPane.setLeft(newDriver.createAct(timeline, newDriver.getDuration(),newDriver.getType()));
 			Scene finalScene = new Scene(generalPane,900,650);
@@ -229,10 +241,7 @@ public class MainMenu2  {
 			finalScene.setOnKeyPressed(new ControlClass());
 			
 		});
-		
-		
-		
-		
+
 	return stage1;
 		
 	}
@@ -240,5 +249,4 @@ public class MainMenu2  {
 	
 	
 }
-
 
