@@ -26,12 +26,6 @@ import javafx.stage.Stage;
 public class MainMenu2  {
 	
 	Driver newDriver = new Driver();
-	boolean easyClick = false;
-	boolean mediumClick = false;
-	boolean hardClick = false; 
-	boolean classicClicked = false;
-	boolean maze1Clicked = false;
-	boolean maze2Clicked = false;
 	Label score = new Label();
 
 	public Stage stage1 = new Stage();
