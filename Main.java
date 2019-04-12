@@ -1,10 +1,5 @@
 package userInterface;
-
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.stage.Stage;
-import logic.*;
-import controller.*;
+import controller.Driver;
 
 /**
  * The class Main primarily serves as a starter and runner for the GUI and 
@@ -12,13 +7,16 @@ import controller.*;
  * within the GUI
  * 
  */
-
+import javafx.application.Application;
+import javafx.stage.Stage;
 public class Main extends Application{
 	MainMenu2 mainmenu = new MainMenu2();
-	
+	GameOverAlertBox boxy = new GameOverAlertBox();
+	Driver newDriver = new Driver();
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+
 		primaryStage = mainmenu.displayMainMenu();
 		primaryStage.show();
 	}
