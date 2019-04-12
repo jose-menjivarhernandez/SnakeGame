@@ -186,7 +186,7 @@ public class Driver{
             	int randY = (int)(Math.random() * (BOARD_HEIGHT-NODE_SIZE)) / NODE_SIZE * NODE_SIZE;
             	//placing berry in a valid place for maze 2
             	if(type == "m2") {
-            		System.out.println(randX+ "&" + randY);
+            		
             		while((!isValidPlacementMaze2X(randX)) && (!isValidPlacementMaze2Y(randY))) {
             			randX = (int)(Math.random() * (BOARD_WIDTH-NODE_SIZE)) / NODE_SIZE * NODE_SIZE;
                     	randY = (int)(Math.random() * (BOARD_HEIGHT-NODE_SIZE)) / NODE_SIZE * NODE_SIZE;
@@ -195,7 +195,7 @@ public class Driver{
             		berry.setTranslateY(randY);
             	//placing berry in a valid place for maze 1
             	}else if (type == "m1") {
-            		System.out.println(randX +"&"+ randY);
+            		
             		while((!isValidPlacementMaze1X(randX)) && (!isValidPlacementMaze1Y(randY))) {
             			randX = (int)(Math.random() * (BOARD_WIDTH-NODE_SIZE)) / NODE_SIZE * NODE_SIZE;
             			randY = (int)(Math.random() * (BOARD_WIDTH-NODE_SIZE)) / NODE_SIZE * NODE_SIZE;
