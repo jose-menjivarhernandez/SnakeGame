@@ -1,33 +1,37 @@
 package logic;
-/**
- * 
- * This class is in charge of the creation of a board where the game snake 
- * in the console is played.
- * The instance variable width and height are used for respective width and height designations
- * the snake, berry, wall, and back characters determine the characters to be used 
- * for these objects in the board
- * The consoleBoard creates an 2x2 grid with arrays used as board later on.
- *
- */
+
 public class ClassicBoardConsole{
-	//Console board is 65 x 65 units 
-	//GUI is 700 x 650 because each block is ten pixels
+	//Console is 65 x 65
+	//GUI is 650 x 650 because each block is ten pixels
 	private int width;
 	private int height;
 	private char snake;
 	private char berry;
-	public char consoleBoard[][];
+	private char consoleBoard[][];
 	private char wall;
 	private char back;
 	//Choosing values only works if the values are the same, can't have different width and heights
 	//Constructor for board
+	
+	/**
+	 * 
+	 * This class is in charge of the creation of a board where the game snake 
+	 * in the console is played.
+	 * The instance variable width and height are used for respective width and height designations
+	 * the snake, berry, wall, and back characters determine the characters to be used 
+	 * for these objects in the board
+	 * The consoleBoard creates an 2x2 grid with arrays used as board later on.
+	 *
+	 */
 	public ClassicBoardConsole(int WIDTH, int HEIGHT, char consoleBoardCon[][], char snake, char berry, char WALL, char BACK) {
 		this.width = new Integer (WIDTH);
 		this.height = new Integer (HEIGHT);
 		this.wall = new Character(WALL);
 		this.back = BACK;
-		//creating new instance of the board to be used
+		
+		//setting the parameter
 		consoleBoardCon = new char [width][height];
+		//setting the instance variable to the parameter
 		this.consoleBoard = consoleBoardCon;
 		//Filling array with '.'
 		for (int  i= 1; i < width-1; i++) {
@@ -81,11 +85,10 @@ public class ClassicBoardConsole{
 		//Puts the character into the array
 		consoleBoard[randomXVar][randomYVar] = berry;
 	}
-	
 	/**
 	 * This method places the char which would be the snake in the board
 	 * @param snake is the char which is going to be the snake in the board
-	 */
+	 */	
 	public  void placeSnake(char snake) {
 		this.snake = new Character (snake);
 		int Xcoord = width/2;
@@ -93,9 +96,7 @@ public class ClassicBoardConsole{
 		consoleBoard[Xcoord][Ycoord] = snake;
 	}
 	
-	/**
-	 * Prints the board at any instance it may be
-	 */
+	//Printing the game board
 	public void printBoard() {
 		for (int i= 0; i < width; i++) {
 			for (int j= 0; j< height;j ++) {
@@ -110,7 +111,7 @@ public class ClassicBoardConsole{
 	 * berry has been eaten
 	 * @return a boolean true is has been eaten and false otherwise
 	 */
-	public boolean hasNotEaten() { //Checking characters not location, overlap changes and wont re-spawn, need to see if no longer on screen
+	public boolean hasNotEaten() { //Checking characters not location, overlap changes and wont respawn, need to see if no longer on screen
 		boolean eaten = false;
 		for(int indexW = 0; indexW < width-1 ; indexW++) {
 			for (int IndexY = 0; IndexY < height-1 ; IndexY++) {
@@ -122,6 +123,7 @@ public class ClassicBoardConsole{
 		return eaten;
 	}
 	
+
 	/**
 	 * This method is checking if the snake collided with one of the walls
 	 * This is the losing condition
@@ -155,7 +157,7 @@ public class ClassicBoardConsole{
 		return lost;
 	}
 	
-	//Respective getter and setter methods for the instance variables 
+	//Getter and setter methods
 	public int getWidth() {
 		return new Integer(width);
 	}
