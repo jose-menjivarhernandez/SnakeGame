@@ -140,10 +140,10 @@ public class LogicTests{
     ClassicBoardConsole board = new ClassicBoardConsole(20,20,consoleBoard,'@','&','#','.');
     Moving move = new Moving(board);
     //execution
-    for(int iW = 0; iW < 19 ; iW++) {
-			for (int iY = 0; iY < 19 ; iY++) {
-				if(board.getConsoleBoard()[iW][iY] == '&') {
-          board.getConsoleBoard()[iW][iY]= '@';
+    for(int width = 0; width < 19 ; width++) {
+			for (int height = 0; height < 19 ; height++) {
+				if(board.getConsoleBoard()[width][height] == '&') {
+          board.getConsoleBoard()[width][height]= '@';
           move.moveUp();
         }
       }
