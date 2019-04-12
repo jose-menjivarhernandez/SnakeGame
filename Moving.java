@@ -24,13 +24,13 @@ public class Moving{
 
 	//Moving SNAKE right
 	public void moveRight() {
-		for (int iW = width-1; iW > 0;iW--) {
-			for (int iY = height-1; iY > 0;iY--) {
-				if (consoleBoard [iW][iY] == snake) {
-					if(consoleBoard[iW][iY] != berry) {
-						consoleBoard[iW][iY] = back;
+		for (int widthIndex = width-1; widthIndex > 0;widthIndex--) {
+			for (int heightIndex = height-1; heightIndex > 0;heightIndex--) {
+				if (consoleBoard [widthIndex][heightIndex] == snake) {
+					if(consoleBoard[widthIndex][heightIndex] != berry) {
+						consoleBoard[widthIndex][heightIndex] = back;
 					}
-					consoleBoard[iW+1][iY] = snake;
+					consoleBoard[widthIndex+1][heightIndex] = snake;
 				}
 			}
 		}
@@ -38,13 +38,13 @@ public class Moving{
 	
 	//Moving SNAKE left
 	public void moveLeft() {
-		for (int iW = 0; iW < width-1; iW++) {
-			for (int iY = 0; iY< height-1; iY++) {
-				if (consoleBoard [iW][iY] == snake) {
-					if(consoleBoard[iW][iY] != berry) {
-						consoleBoard[iW][iY] = back;
+		for (int widthIndex = 0; widthIndex < width-1; widthIndex++) {
+			for (int heightIndex = 0; heightIndex< height-1; heightIndex++) {
+				if (consoleBoard [widthIndex][heightIndex] == snake) {
+					if(consoleBoard[widthIndex][heightIndex] != berry) {
+						consoleBoard[widthIndex][heightIndex] = back;
 					}
-					consoleBoard[iW-1][iY] = snake;
+					consoleBoard[widthIndex-1][heightIndex] = snake;
 				}
 			}
 		}	
@@ -52,13 +52,13 @@ public class Moving{
 	
 	//Moving SNAKE up
 	public void moveUp() {
-		for (int iW = 0; iW < width-1; iW++) {
-			for (int iY = 0; iY< height-1; iY++) {
-				if (consoleBoard [iW][iY] == snake) {
-					if(consoleBoard[iW][iY] != berry) {
-						consoleBoard[iW][iY] = back;
+		for (int widthIndex = 0; widthIndex < width-1; widthIndex++) {
+			for (int heightIndex = 0; heightIndex< height-1; heightIndex++) {
+				if (consoleBoard [widthIndex][heightIndex] == snake) {
+					if(consoleBoard[widthIndex][heightIndex] != berry) {
+						consoleBoard[widthIndex][heightIndex] = back;
 					}
-					consoleBoard[iW][iY-1] = snake;
+					consoleBoard[widthIndex][heightIndex-1] = snake;
 				}
 			}
 		}
@@ -66,13 +66,13 @@ public class Moving{
 	
 	//Moving SNAKE down
 	public void moveDown() {
-		for (int iW = width-1; iW >0;iW--) {
-			for (int iY= height-1; iY>0;iY--) {
-				if (consoleBoard [iW][iY] == snake) {
-					if(consoleBoard[iW][iY] != berry) {
-						consoleBoard[iW][iY] = back;
+		for (int widthIndex = width-1; widthIndex >0;widthIndex--) {
+			for (int heightIndex= height-1; heightIndex>0;heightIndex--) {
+				if (consoleBoard [widthIndex][heightIndex] == snake) {
+					if(consoleBoard[widthIndex][heightIndex] != berry) {
+						consoleBoard[widthIndex][heightIndex] = back;
 					}
-					consoleBoard[iW][iY+1] = snake;
+					consoleBoard[widthIndex][heightIndex+1] = snake;
 				}
 			}
 		}
