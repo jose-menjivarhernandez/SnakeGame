@@ -208,7 +208,7 @@ public class MainMenu2  {
 		//The next few setOnAction statements are setting the buttons for pressing events
 		//that are immediately going to create a dynamic scene using the time-line, 
 		//duration, and type of Driver class to depict in the scene.
-		classic.setOnAction(e->{
+
 		
 		classic.setOnAction(e->{
 
