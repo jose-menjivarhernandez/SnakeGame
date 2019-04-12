@@ -10,7 +10,7 @@ public class LogicTests{
     //test-setup
     char consoleBoard [][] = null;
     ClassicBoardConsole board = new ClassicBoardConsole(20,20,consoleBoard,'@','&','#','.');
-		Moving move = new Moving(board);
+	
     //board.printBoard();
     //execution & verification
     assertEquals("The height of the board should be 20", board.getHeight(),20);
@@ -24,10 +24,10 @@ public class LogicTests{
     //test-setup
     char consoleBoard [][] = null;
     ClassicBoardConsole board = new ClassicBoardConsole(20,20,consoleBoard,'@','&','#','.');
-		Moving move = new Moving(board);
+	
     //board.printBoard();
     //execution & verification
-    assertEquals("The snake should be in the position [10][10] of the board", board.consoleBoard[10][10],'@');
+    assertEquals("The snake should be in the position [10][10] of the board", board.getConsoleBoard()[10][10],'@');
 	}
 
   @Test
@@ -40,20 +40,20 @@ public class LogicTests{
 		move.moveRight();
   //  board.printBoard();
   //verification
-		assertEquals("The snake should be in the position [11][10] of the board", board.consoleBoard[11][10],'@');
+		assertEquals("The snake should be in the position [11][10] of the board", board.getConsoleBoard()[11][10],'@');
 		board.printBoard();
 	}
   @Test
 	public void test_Moving_Left(){
-      //test-setup
+    //test-setup
     char consoleBoard [][] = null;
     ClassicBoardConsole board = new ClassicBoardConsole(20,20,consoleBoard,'@','&','#','.');
-		Moving move = new Moving(board);
+	Moving move = new Moving(board);
     //execution
-		move.moveLeft();
-  //  board.printBoard();
+	move.moveLeft();
+  
   //verification
-    assertEquals("The snake should be in the position [9][10] of the board", board.consoleBoard[9][10],'@');
+    assertEquals("The snake should be in the position [9][10] of the board", board.getConsoleBoard()[9][10],'@');
 	board.printBoard();
   	}
   @Test
@@ -64,9 +64,9 @@ public class LogicTests{
 		Moving move = new Moving(board);
     //execution
 		move.moveUp();
-    //board.printBoard();
+
     //verification
-    assertEquals("The snake should be in the position [10][9] of the board", board.consoleBoard[10][9],'@');
+    assertEquals("The snake should be in the position [10][9] of the board", board.getConsoleBoard()[10][9],'@');
 	board.printBoard();
   	}
   @Test
@@ -77,9 +77,9 @@ public class LogicTests{
 		Moving move = new Moving(board);
     //execution
 		move.moveDown();
-  //  board.printBoard();
+
   //verification
-    assertEquals("The snake should be in the position [10][11] of the board", board.consoleBoard[10][11],'@');
+    assertEquals("The snake should be in the position [10][11] of the board", board.getConsoleBoard()[10][11],'@');
 	board.printBoard();
   }
 
@@ -98,9 +98,9 @@ public class LogicTests{
     move.moveLeft();
     move.moveUp();
     move.moveRight();
-    //board.printBoard();
+
     //verification
-    assertEquals("The snake should be in the position [9][13] of the board",board.consoleBoard[9][13],'@');
+    assertEquals("The snake should be in the position [9][13] of the board",board.getConsoleBoard()[9][13],'@');
   board.printBoard();
   }
   @Test
@@ -118,7 +118,7 @@ public class LogicTests{
     move.moveDown();
     move.moveDown();
     move.moveDown();
-    //board.printBoard();
+
     //execution & verification
     assertTrue("The game should have ended because Snake hit the border", board.gameOver() == true);
 	}
@@ -127,8 +127,8 @@ public class LogicTests{
     //test-setup
     char consoleBoard [][] = null;
     ClassicBoardConsole board = new ClassicBoardConsole(20,20,consoleBoard,'@','&','#','.');
-    Moving move = new Moving(board);
-  //  board.printBoard();
+
+
   //execution & verification
     assertTrue("The counter should still be 0 as snake has not eaten yet",board.hasNotEaten()== true);
   }
@@ -142,20 +142,20 @@ public class LogicTests{
     //execution
     for(int iW = 0; iW < 19 ; iW++) {
 			for (int iY = 0; iY < 19 ; iY++) {
-				if(board.consoleBoard[iW][iY] == '&') {
-          board.consoleBoard[iW][iY]= '@';
+				if(board.getConsoleBoard()[iW][iY] == '&') {
+          board.getConsoleBoard()[iW][iY]= '@';
           move.moveUp();
         }
       }
     }
     for(int indexW = 0; indexW < 19 ; indexW++) {
     	for (int IndexY = 0; IndexY < 19 ; IndexY++) {
-    		if(board.consoleBoard[indexW][IndexY] == '&'){
+    		if(board.getConsoleBoard()[indexW][IndexY] == '&'){
           present=true;
         }
       }
     }
-    board.printBoard();
+
     //verification
     assertEquals("Berry has re-spawned and Snake has now eaten",board.hasNotEaten()== true, present == true);
   }
