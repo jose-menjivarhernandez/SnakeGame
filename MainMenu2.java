@@ -26,8 +26,11 @@ import javafx.stage.Stage;
 public class MainMenu2  {
 	
 	Driver newDriver = new Driver();
-	Label score = new Label();
-
+	private Label score = new Label();
+	private double easyDur = 0.1;
+	private double medDur = 0.075;
+	private double hardDur = 0.05;
+	
 	public Stage stage1 = new Stage();
 	
 	
@@ -77,34 +80,38 @@ public class MainMenu2  {
 		//Creating HBox and adding created labels to it
 		VBox labelling = new VBox(10);
 		
-		
+		int prefFontSize = 50;
 		Label label1 = new Label("Welcome to the Snoke Game!");
-		label1.setFont(Font.font("Verdana", 50));
+		label1.setFont(Font.font("Verdana", prefFontSize));
 		Label label2 = new Label ("Please select your difficulty:");
-		label2.setFont(Font.font("Verdana",50));
+		label2.setFont(Font.font("Verdana",prefFontSize));
 		
 		labelling.getChildren().addAll(label1, label2);
 		
 		//Creating VBox and adding created difficulty buttons to it
+		double prefButtonWidth = 200;
+		double prefButtonHeight = 100;
+		double prefScreenWidth = 900;
+		double prefScreenHeight = 650;
 		VBox buttonHolder = new VBox(50);
 		
 		Button easyButton = new Button ("Easy");
-		easyButton.setPrefSize(200, 100);
+		easyButton.setPrefSize(prefButtonWidth, prefButtonHeight);
 		
 		Button easyChallengeButton = new Button ("Easy Challenge Mode");
-		easyChallengeButton.setPrefSize(200,100);
+		easyChallengeButton.setPrefSize(prefButtonWidth,prefButtonHeight);
 		
 		Button mediumButton = new Button ("Medium");
-		mediumButton.setPrefSize(200,100);
+		mediumButton.setPrefSize(prefButtonWidth,prefButtonHeight);
 
 		Button mediumChallengeButton = new Button ("Medium Challenge Mode");
-		mediumChallengeButton.setPrefSize(200,100);
+		mediumChallengeButton.setPrefSize(prefButtonWidth,prefButtonHeight);
 		
 		Button hardButton = new Button ("Hard");
-		hardButton.setPrefSize(200, 100);
+		hardButton.setPrefSize(prefButtonWidth, prefButtonHeight);
 		
 		Button hardChallengeButton = new Button ("Hard Challenge Mode");
-		hardChallengeButton.setPrefSize(200,100);
+		hardChallengeButton.setPrefSize(prefButtonWidth,prefButtonHeight);
 		
 		buttonHolder.getChildren().addAll(easyButton,easyChallengeButton, mediumButton,mediumChallengeButton, hardButton, hardChallengeButton);
 
@@ -124,7 +131,7 @@ public class MainMenu2  {
 		BorderPane mainMenu = new BorderPane();
 		mainMenu.setTop(labelling);
 		mainMenu.setCenter(buttonHolder);
-		Scene scene1 = new Scene(mainMenu, 900, 650);
+		Scene scene1 = new Scene(mainMenu, prefScreenWidth, prefScreenHeight);
 		stage1.setScene(scene1);
 		
 		//*Contents for Easy selection are here 
@@ -134,17 +141,17 @@ public class MainMenu2  {
 		Label selecting = new Label ("Please select your board");
 		selecting.setFont(Font.font("Verdana", 50));
 		Button classic = new Button ("Classic");
-		classic.setPrefSize(200, 100);
+		classic.setPrefSize(prefButtonWidth, prefButtonHeight);
 		Button maze1 = new Button ("Maze 1");
-		maze1.setPrefSize(200, 100);
+		maze1.setPrefSize(prefButtonWidth, prefButtonHeight);
 		Button maze2 = new Button ("Maze 2"); 
-		maze2.setPrefSize(200, 100);
+		maze2.setPrefSize(prefButtonWidth, prefButtonHeight);
 		//Place all 3 buttons at the center of the window
 		selectionHolder.getChildren().addAll(selecting, classic, maze1, maze2);
 		selectionHolder.setAlignment(Pos.CENTER);
 		selectionMenu.setCenter(selectionHolder);
 
-		Scene scene2 = new Scene(selectionMenu, 900, 650);
+		Scene scene2 = new Scene(selectionMenu, prefScreenWidth, prefScreenHeight);
 		
 		Timeline timeline = new Timeline();
 		BorderPane generalPane= new BorderPane();
@@ -162,53 +169,50 @@ public class MainMenu2  {
 		generalPane.setCenter(sideButtons);
 
 	    QuitButton.setOnAction(e->stage1.close());
-		
-		//These follwoing lines of code dictate the specific actions of every specific
+		String challengeMessage = "You have one minute to eat \n as many berries as possible!";
+		//These following lines of code dictate the specific actions of every specific
 	    //button in the different menus shown stages in the GUI
 		easyButton.setOnAction(e->{
 			stage1.setScene(scene2);
-			newDriver.setDuration(0.1);
+			newDriver.setDuration(easyDur);
 		});
 		easyChallengeButton.setOnAction(e->{
 			stage1.setScene(scene2);
-			newDriver.setDuration(0.1);
+			newDriver.setDuration(easyDur);
 			newDriver.setChallenge(true);
-			funMessage.setText("You have 1 minute");
+			funMessage.setText(challengeMessage);
 		});
 		mediumButton.setOnAction(e->{
 			stage1.setScene(scene2);
 
-			newDriver.setDuration(0.075);
+			newDriver.setDuration(medDur);
 		});
 		mediumChallengeButton.setOnAction(e->{
 			stage1.setScene(scene2);
-			newDriver.setDuration(0.075);
+			newDriver.setDuration(medDur);
 			newDriver.setChallenge(true);
-			funMessage.setText("You have 1 minute");
+			funMessage.setText(challengeMessage);
 		});
 		hardButton.setOnAction(e->{
 			stage1.setScene(scene2);
 
-			newDriver.setDuration(0.05);
+			newDriver.setDuration(hardDur);
 			
 		});
 		hardChallengeButton.setOnAction(e->{
 			stage1.setScene(scene2);
-			newDriver.setDuration(0.05);
+			newDriver.setDuration(hardDur);
 			newDriver.setChallenge(true);
-			funMessage.setText("You have 1 minute");
+			funMessage.setText(challengeMessage);
 		});
-		
 		//The next few setOnAction statements are setting the buttons for pressing events
 		//that are immediately going to create a dynamic scene using the time-line, 
 		//duration, and type of Driver class to depict in the scene.
-
-		
 		classic.setOnAction(e->{
 
 			newDriver.setType("classic");
 			generalPane.setLeft(newDriver.createAct(timeline, newDriver.getDuration(),newDriver.getType()));
-			Scene finalScene = new Scene(generalPane,900,650);
+			Scene finalScene = new Scene(generalPane,prefScreenWidth,prefScreenHeight);
 			stage1.setScene(finalScene);
 			newDriver.beginGame(timeline);
 			finalScene.setOnKeyPressed(new ControlClass());
@@ -218,7 +222,7 @@ public class MainMenu2  {
 
 			newDriver.setType("m1");
 			generalPane.setLeft(newDriver.createAct(timeline, newDriver.getDuration(),newDriver.getType()));
-			Scene finalScene = new Scene(generalPane,900,650);
+			Scene finalScene = new Scene(generalPane,prefScreenWidth,prefScreenHeight);
 			stage1.setScene(finalScene);
 			newDriver.beginGame(timeline);
 			finalScene.setOnKeyPressed(new ControlClass());
@@ -229,7 +233,7 @@ public class MainMenu2  {
 
 			newDriver.setType("m2");
 			generalPane.setLeft(newDriver.createAct(timeline, newDriver.getDuration(),newDriver.getType()));
-			Scene finalScene = new Scene(generalPane,900,650);
+			Scene finalScene = new Scene(generalPane,prefScreenWidth,prefScreenHeight);
 			stage1.setScene(finalScene);
 			newDriver.beginGame(timeline);
 			finalScene.setOnKeyPressed(new ControlClass());
